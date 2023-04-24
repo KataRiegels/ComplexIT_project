@@ -17,7 +17,8 @@ namespace ChatServer.Controllers
         {
             _logger = logger;
         }
-
+        /*
+         
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
@@ -29,5 +30,6 @@ namespace ChatServer.Controllers
             })
             .ToArray();
         }
+         */
     }
 }
