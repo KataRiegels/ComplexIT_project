@@ -30,6 +30,7 @@ namespace ChatSample
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<ChatHub>("/chat");
+
             });
         }
     }
