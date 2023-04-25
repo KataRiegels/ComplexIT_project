@@ -35,3 +35,8 @@ C:\Users\katar\Documents\RUC_masters\Complex_project\serverCode\ComplexIT_projec
 C:\Users\katar\Documents\RUC_masters\Complex_project\serverCode\ComplexIT_project\CharServer\ChatServer\obj\Debug\net7.0\ChatServer.pdb
 C:\Users\katar\Documents\RUC_masters\Complex_project\serverCode\ComplexIT_project\CharServer\ChatServer\obj\Debug\net7.0\ChatServer.genruntimeconfig.cache
 C:\Users\katar\Documents\RUC_masters\Complex_project\serverCode\ComplexIT_project\CharServer\ChatServer\obj\Debug\net7.0\ref\ChatServer.dll
+C:\Users\katar\Documents\RUC_masters\Complex_project\serverCode\ComplexIT_project\CharServer\ChatServer\bin\Debug\net7.0\Microsoft.AspNetCore.Http.Connections.Client.dll
+C:\Users\katar\Documents\RUC_masters\Complex_project\serverCode\ComplexIT_project\CharServer\ChatServer\bin\Debug\net7.0\Microsoft.AspNetCore.Http.Connections.Common.dll
+C:\Users\katar\Documents\RUC_masters\Complex_project\serverCode\ComplexIT_project\CharServer\ChatServer\bin\Debug\net7.0\Microsoft.AspNetCore.SignalR.Client.dll
+C:\Users\katar\Documents\RUC_masters\Complex_project\serverCode\ComplexIT_project\CharServer\ChatServer\bin\Debug\net7.0\Microsoft.AspNetCore.SignalR.Client.Core.dll
+C:\Users\katar\Documents\RUC_masters\Complex_project\serverCode\ComplexIT_project\CharServer\ChatServer\bin\Debug\net7.0\Microsoft.AspNetCore.SignalR.Protocols.Json.dll
