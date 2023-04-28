@@ -15,3 +15,7 @@ build_property.SupportLocalizedComponentNames =
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
 build_property.MSBuildProjectDirectory = C:\Users\katar\Documents\RUC_masters\Complex_project\serverCode\ComplexIT_project\CharServer\ChatServer
 build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/katar/Documents/RUC_masters/Complex_project/serverCode/ComplexIT_project/CharServer/ChatServer/Pages/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 

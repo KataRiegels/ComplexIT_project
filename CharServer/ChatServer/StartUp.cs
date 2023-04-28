@@ -1,4 +1,4 @@
-﻿using ChatSample.Hubs;
+﻿//using ChatSample.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,7 +29,7 @@ namespace ChatSample
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<ChatHub>("/chat");
+                //endpoints.MapHub<ChatHub>("/chat");
 
             });
         }

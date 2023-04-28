@@ -40,3 +40,5 @@ C:\Users\katar\Documents\RUC_masters\Complex_project\serverCode\ComplexIT_projec
 C:\Users\katar\Documents\RUC_masters\Complex_project\serverCode\ComplexIT_project\CharServer\ChatServer\bin\Debug\net7.0\Microsoft.AspNetCore.SignalR.Client.dll
 C:\Users\katar\Documents\RUC_masters\Complex_project\serverCode\ComplexIT_project\CharServer\ChatServer\bin\Debug\net7.0\Microsoft.AspNetCore.SignalR.Client.Core.dll
 C:\Users\katar\Documents\RUC_masters\Complex_project\serverCode\ComplexIT_project\CharServer\ChatServer\bin\Debug\net7.0\Microsoft.AspNetCore.SignalR.Protocols.Json.dll
+C:\Users\katar\Documents\RUC_masters\Complex_project\serverCode\ComplexIT_project\CharServer\ChatServer\obj\Debug\net7.0\ChatServer.RazorAssemblyInfo.cache
+C:\Users\katar\Documents\RUC_masters\Complex_project\serverCode\ComplexIT_project\CharServer\ChatServer\obj\Debug\net7.0\ChatServer.RazorAssemblyInfo.cs

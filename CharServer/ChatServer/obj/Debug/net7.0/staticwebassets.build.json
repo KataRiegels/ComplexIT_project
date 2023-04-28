@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "OJwezw9JGHA5F3UluqE2ihilViaLTvgsI2I+dnfAtkY=",
+  "Hash": "V+J7t8+NXyaUdFjwS/UIRybyKAIB9xk7a58jmIOmv78=",
   "Source": "ChatServer",
   "BasePath": "_content/ChatServer",
   "Mode": "Default",
@@ -17,6 +17,23 @@
   ],
   "Assets": [
     {
+      "Identity": "C:\\Users\\katar\\Documents\\RUC_masters\\Complex_project\\serverCode\\ComplexIT_project\\CharServer\\ChatServer\\wwwroot\\chat.js",
+      "SourceId": "ChatServer",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\katar\\Documents\\RUC_masters\\Complex_project\\serverCode\\ComplexIT_project\\CharServer\\ChatServer\\wwwroot\\",
+      "BasePath": "_content/ChatServer",
+      "RelativePath": "chat.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\chat.js"
+    },
+    {
       "Identity": "C:\\Users\\katar\\Documents\\RUC_masters\\Complex_project\\serverCode\\ComplexIT_project\\CharServer\\ChatServer\\wwwroot\\index.html",
       "SourceId": "ChatServer",
       "SourceType": "Discovered",
@@ -32,6 +49,57 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\index.html"
+    },
+    {
+      "Identity": "C:\\Users\\katar\\Documents\\RUC_masters\\Complex_project\\serverCode\\ComplexIT_project\\CharServer\\ChatServer\\wwwroot\\lib\\signalr.js",
+      "SourceId": "ChatServer",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\katar\\Documents\\RUC_masters\\Complex_project\\serverCode\\ComplexIT_project\\CharServer\\ChatServer\\wwwroot\\",
+      "BasePath": "_content/ChatServer",
+      "RelativePath": "lib/signalr.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\signalr.js"
+    },
+    {
+      "Identity": "C:\\Users\\katar\\Documents\\RUC_masters\\Complex_project\\serverCode\\ComplexIT_project\\CharServer\\ChatServer\\wwwroot\\lib\\signalr.min.js",
+      "SourceId": "ChatServer",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\katar\\Documents\\RUC_masters\\Complex_project\\serverCode\\ComplexIT_project\\CharServer\\ChatServer\\wwwroot\\",
+      "BasePath": "_content/ChatServer",
+      "RelativePath": "lib/signalr.min.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\signalr.min.js"
+    },
+    {
+      "Identity": "C:\\Users\\katar\\Documents\\RUC_masters\\Complex_project\\serverCode\\ComplexIT_project\\CharServer\\ChatServer\\wwwroot\\lib\\third-party-notices.txt",
+      "SourceId": "ChatServer",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\katar\\Documents\\RUC_masters\\Complex_project\\serverCode\\ComplexIT_project\\CharServer\\ChatServer\\wwwroot\\",
+      "BasePath": "_content/ChatServer",
+      "RelativePath": "lib/third-party-notices.txt",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\third-party-notices.txt"
     }
   ]
 }
