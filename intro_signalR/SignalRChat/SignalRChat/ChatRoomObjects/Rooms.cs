@@ -17,23 +17,13 @@ public class Rooms : List<Room>
     {
         //TODO: NULL?
         Room room = Find(x => x.GroupId.Equals(id));
-        Console.WriteLine("Rooms.GetRoom: " + room.RoomName);
-        Console.WriteLine("Rooms.GetRoom: " + room.GroupId);
         return room;
     }
 
-    public Room GetRoomByName(string roomName)
+    public Room GetRoomById(string roomName)
     {
         //TODO: NULL?
-        Console.WriteLine("roomname: " + roomName);
-        Console.WriteLine("room size: " + this.Count());
-        foreach (var r in this)
-        {
-            Console.WriteLine(r.RoomName);
-            Console.WriteLine(r.GroupId);
-        }
         Room room = Find(x => x.RoomName.Equals(roomName));
-        Console.WriteLine("Rooms.GetRoomByName: " + room.RoomName + ", id: " + room.GroupId);
         return room;
     }
 
@@ -49,11 +39,23 @@ public class Rooms : List<Room>
     public void AddParticipantToRoom(Participant participant, string groupId)
     {
         GetRoom(groupId).AddParticipant(participant);
+        participant.roomId = groupId;
     }
 
     public void AddParticipantToRoom(string connectionId, string groupId)
     {
         //GetRoom(groupId).AddParticipant(participant);
+    }
+
+    public Boolean CheckIfRoomIdExists(string roomId)
+    {
+        foreach (Room room in this)
+        {
+            if (room.GroupId.Equals(roomId)){
+                return true;
+            }
+        }
+        return false;
     }
 
 

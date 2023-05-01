@@ -10,65 +10,70 @@ namespace SignalRChat.Hubs
     {
         //public KeyValuePair<string, string>[] groupIdNamePair;
         Dictionary<string, string>? groupIdNamePairs = new Dictionary<string, string>();
-        static Rooms ChatRooms = new Rooms(new Room("4", "k"));
+        static Dictionary<string, Participant>? connectionIdParticipantPairs = new Dictionary<string, Participant>();
+        
+        static Rooms ChatRooms = new Rooms();
 
-        public async Task SendMessage(string user, string message)
+
+        public async Task SendMessage( string message)
         {
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
+            Participant callerParticipant = connectionIdParticipantPairs[Context.ConnectionId];
+            string groupId = callerParticipant.roomId;
+
+            await Clients.Group(groupId).SendAsync("ReceiveMessage", callerParticipant.Nickname, message);
         }
 
-        //public async Task CreateRoom(string groupName)
-        public async Task CreateRoom(string roomName = "dummy")
+        //TODO: make sure generated ID doesn't already exist
+        public async Task CreateRoom(string userName)
         {
             // Generating 8 digit group id
             string groupId = GenerateRoomID(8);
 
-
+            await Console.Out.WriteLineAsync("created room");
+            Participant creatorParticipant = new Participant(Context.ConnectionId, userName);
             // the new room
-            Room newRoom = new Room(groupId, roomName);
-
+            Room newRoom = new Room(groupId, creatorParticipant);
             // Adding the room to the Hub's chat rooms
             AddRoomToHub(newRoom);
             // Adding the connected user to the new chat room
-            await Console.Out.WriteLineAsync("room name: " + newRoom.RoomName);
-            JoinRoom(roomName);
+            JoinParticipantToRoom(groupId, creatorParticipant);
             //TODO: DELETEnewRoom
-            await Console.Out.WriteLineAsync(Clients.Group(groupId).ToString());
-
-
+            await Clients.Caller.SendAsync("ReceiveGroupName", groupId);
         }
 
         // When a room as already been created, add a participant to said chat room
-        public async Task JoinRoom(string roomName)
+        public async Task JoinRoom(string userName, string roomName)
         {
-            JoinParticipantToRoom(roomName);
-            Room roomToJoin = ChatRooms.GetRoomByName(roomName);
-            //await Console.Out.WriteLineAsync(roomToJoin.GroupId);
-            //AddParticipantToChatRoom(new Participant(Context.ConnectionId), roomToJoin.GroupId);
+            JoinParticipantToRoom(roomName, new Participant(Context.ConnectionId, userName));
         }
 
-        public async void JoinParticipantToRoom(string roomName)
+        public async void JoinParticipantToRoom(string roomName, Participant newParticipant)
         {
-            await Console.Out.WriteLineAsync("room size bitch: " + ChatRooms.Count());
-            Room roomToJoin = ChatRooms.GetRoomByName(roomName);
-            await Console.Out.WriteLineAsync(roomToJoin.GroupId);
-            AddParticipantToChatRoom(new Participant(Context.ConnectionId), roomToJoin.GroupId);
+            Room roomToJoin = ChatRooms.GetRoom(roomName);
+            AddParticipantToChatRoom(newParticipant, roomToJoin.GroupId);
         }
 
 
 
         private string GenerateRoomID(int length)
         {
-            int idLength = 8;
+            int idLength = length;
 
             // Characters and numbers to choose from
             string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
             Random random = new Random();
 
-            // Generate the ID
-            string id = new string(Enumerable.Repeat(chars, idLength)
+            string id = "";
+
+            Console.WriteLine(id);
+
+            id = new string(Enumerable.Repeat(chars, idLength)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
+
+            if (ChatRooms.CheckIfRoomIdExists(id))
+
+                return GenerateRoomID(idLength);
 
             return id;
         }
@@ -93,6 +98,7 @@ namespace SignalRChat.Hubs
         {
             Groups.AddToGroupAsync(newParticipant.ConnectionId, roomID);
             ChatRooms.AddParticipantToRoom(newParticipant, roomID);
+            connectionIdParticipantPairs.Add(newParticipant.ConnectionId, newParticipant);
         }
 
         private void AddParticipantToChatRoom(string connectionId, string roomID)

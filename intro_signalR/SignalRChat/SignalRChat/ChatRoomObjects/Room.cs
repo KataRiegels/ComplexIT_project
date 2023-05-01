@@ -5,7 +5,7 @@ namespace SignalRChat.ChatRoomObjects
     public class Room
     {
         public string GroupId;
-        public string RoomName;
+        public string? RoomName;
         public List<Participant> Participants;
         public Participant? KeyResponsible; //TODO: What if key responsible is null?
 
@@ -17,10 +17,15 @@ namespace SignalRChat.ChatRoomObjects
             Participants = new List<Participant>();
         }
 
-        public Room(string groupId, string roomName, Participant keyResponsible)
+        public Room(string groupId)
         {
             GroupId = groupId;
-            RoomName = roomName;
+            Participants = new List<Participant>();
+        }
+
+        public Room(string groupId, Participant keyResponsible)
+        {
+            GroupId = groupId;
             Participants = new List<Participant>();
             KeyResponsible = keyResponsible;
         }
@@ -29,6 +34,11 @@ namespace SignalRChat.ChatRoomObjects
         public void AddParticipant(Participant participant)
         {
             Participants.Add(participant);
+            foreach (var item in Participants)
+            {
+                Console.WriteLine("participant: " + item.ConnectionId);
+                
+            }
         }
 
         // Removes a participant from the list of users for this specific room

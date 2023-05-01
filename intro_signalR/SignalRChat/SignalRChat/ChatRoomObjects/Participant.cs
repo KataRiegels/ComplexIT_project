@@ -4,6 +4,7 @@ public class Participant
 {
     public string ConnectionId { get; set; }
     public string? Nickname { get; set; }
+    public string roomId { get; set; }
 
     public Participant (string connectionId, string nickname)
     {
@@ -20,4 +21,16 @@ public class Participant
     {
         Nickname = nickname;
     }
+
+    
+
+
+    //public static Room GetRoom(string connectionId)
+    //{
+
+    //}
+
+
+
+
 }
