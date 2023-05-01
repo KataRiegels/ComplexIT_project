@@ -9,8 +9,7 @@ namespace SignalRChat.Hubs
 {
     public class ChatHub : Hub
     {
-        //public KeyValuePair<string, string>[] groupIdNamePair;
-        Dictionary<string, string>? groupIdNamePairs = new Dictionary<string, string>();
+
         static Dictionary<string, Participant>? connectionIdParticipantPairs = new Dictionary<string, Participant>();
         
         static Rooms ChatRooms = new Rooms();
@@ -21,8 +20,10 @@ namespace SignalRChat.Hubs
             Participant callerParticipant = connectionIdParticipantPairs[Context.ConnectionId];
             string groupId = callerParticipant.roomId;
 
-            //await Clients.Group(groupId).SendAsync("ReceiveMessage", callerParticipant.Nickname, message);
-            await Clients.GroupExcept(groupId, Context.ConnectionId).SendAsync("ReceiveMessage", callerParticipant.Nickname, message);
+            await Clients.OthersInGroup(groupId).SendAsync("ReceiveMessage", callerParticipant.Nickname, message);
+            
+            //TODO: maybe send tick that everyone received it
+        
         }
 
         //TODO: make sure generated ID doesn't already exist
@@ -58,16 +59,6 @@ namespace SignalRChat.Hubs
             AddParticipantToChatRoom( new Participant(Context.ConnectionId, userName), roomName);
         }
 
-        /*
-         
-        // Adding participants to a room
-        //public async void JoinParticipantToRoom(string roomName, Participant newParticipant)
-        //{
-        //    Room roomToJoin = ChatRooms.GetRoom(roomName);
-        //    AddParticipantToChatRoom(newParticipant, roomToJoin.GroupId);
-        //}
-
-         */
 
 
         private string GenerateRoomID(int length)
