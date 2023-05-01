@@ -34,11 +34,6 @@ namespace SignalRChat.ChatRoomObjects
         public void AddParticipant(Participant participant)
         {
             Participants.Add(participant);
-            foreach (var item in Participants)
-            {
-                Console.WriteLine("participant: " + item.ConnectionId);
-                
-            }
         }
 
         // Removes a participant from the list of users for this specific room
