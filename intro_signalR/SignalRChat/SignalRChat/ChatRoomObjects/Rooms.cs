@@ -3,12 +3,12 @@ using System.Text.RegularExpressions;
 
 namespace SignalRChat.ChatRoomObjects;
 
-public class Rooms : List<Room>
+public class Rooms : List<Room>, IRooms
 {
 
     public Rooms() { }
 
-    public Rooms(Room room) 
+    public Rooms(Room room)
     {
         Add(room);
     }
@@ -16,11 +16,11 @@ public class Rooms : List<Room>
 
     public Room GetRoom(string id)
     {
-        Room? room = Find(x => x.GroupId.Equals(id));
-        
+        Room? room = Find(x => x.RoomId.Equals(id));
+
         if (room != null)
             return room;
-        
+
         // No room with that ID in List
         throw new NullReferenceException();
     }
@@ -38,8 +38,8 @@ public class Rooms : List<Room>
     {
         Add(room);
     }
-        
-    public void RemoveRoom(string roomId) 
+
+    public void RemoveRoom(string roomId)
     {
         Remove(GetRoom(roomId));
     }
@@ -53,13 +53,13 @@ public class Rooms : List<Room>
     public void RemoveParticipantFromRoom(Participant participant)
     {
         var room = GetRoom(participant.RoomId);
-            room.RemoveParticipant(participant);
+        room.RemoveParticipant(participant);
         if (room.Participants.Count() <= 0)
         {
-            RemoveRoom(room.GroupId);
+            RemoveRoom(room.RoomId);
         }
         Console.WriteLine("room exists? " + GetRoom(participant.RoomId));
-        
+
 
     }
 
@@ -68,25 +68,16 @@ public class Rooms : List<Room>
     {
         //GetRoom(groupId).AddParticipant(participant);
     }
-
-    public bool CheckIfRoomIdExists(string roomId)
+    public bool ContainsRoom(string roomId)
     {
         foreach (Room room in this)
         {
-            if (room.GroupId.Equals(roomId)){
+            if (room.RoomId.Equals(roomId))
+            {
                 return true;
             }
         }
         return false;
-    }
-
-    public bool ContainsRoom(string roomId)
-    {
-        if (!CheckIfRoomIdExists(roomId))
-        {
-            return false;
-        }
-        return true;
     }
 
 

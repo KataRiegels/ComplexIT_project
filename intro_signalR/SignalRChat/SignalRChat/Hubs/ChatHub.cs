@@ -35,8 +35,9 @@ namespace SignalRChat.Hubs
             // Adding the room to the Hub's chat rooms
             string roomID = GenerateRoomID(8);
             Room   newRoom = new Room(roomID, creatorParticipant);
-            AddRoomToHub(newRoom);
-            await Console.Out.WriteLineAsync("created room with room ID: " + newRoom.GroupId);
+            chatRooms.Add(newRoom);
+            
+            await Console.Out.WriteLineAsync("created room with room ID: " + newRoom.RoomId);
             
             // Adding the connected user to the new chat room
             AddParticipantToChatRoom(newParticipant: creatorParticipant, roomID);
@@ -45,27 +46,21 @@ namespace SignalRChat.Hubs
         }
 
 
+        // Asks client witn connID to return a encrypted symmetric key
+        
 
-        public async Task<string> AskForSymmetricKey(string connectionId)
-        {
-            //todo: cancellation token!
-            var key = await Clients.Client(connectionId).InvokeAsync<string>(
-                "SendKey", new CancellationToken());
-            return key;
-        }
-
-        // Called from "Join room" button on Client
-        public async Task JoinRoom(string userName, string roomName, string encryptedPublicKey = "")
+        // Callback to join room button on client
+        public async Task JoinRoom(string userName, string roomID, string encryptedPublicKey = "")
         {
 
-            if (!chatRooms.ContainsRoom(roomName))
+            if (!chatRooms.ContainsRoom(roomID))
             {
                 //TODO: Room does not exist. Inform client!
             }
 
 
             //? Client should call invoke("JoinRoom").then().invoke("ReceiveKey")
-            Room currentRoom = chatRooms.GetRoom(roomName);
+            Room currentRoom = chatRooms.GetRoom(roomID);
             ISingleClientProxy keyResp = Clients.Client(connectionId: currentRoom.KeyResponsible.ConnectionId);
 
             // Sending request to key responsible - Client will invoke ReceiveKey() method
@@ -81,10 +76,21 @@ namespace SignalRChat.Hubs
             //!? uncomment !
             // await Clients.Caller.SendAsync("ReceiveKey", encryptedSymmetricKey);
 
-            AddParticipantToChatRoom( new Participant(Context.ConnectionId, userName), roomName);
+            AddParticipantToChatRoom( new Participant(Context.ConnectionId, userName), roomID);
         }
 
-
+        /// <summary>
+        /// Invokes client's "SendKey" and waits for a reply. Meant to retreive encrypted symmetric key
+        /// </summary>
+        /// <param name="connectionId">Connection ID for the Participant meant to generate the key</param>
+        /// <returns>A string with the encrypted symmetric key</returns>
+        private async Task<string> AskForSymmetricKey(string connectionId)
+        {
+            //todo: cancellation token!
+            var key = await Clients.Client(connectionId)
+                .InvokeAsync<string>(method: "SendKey", new CancellationToken());
+            return key;
+        }
 
 
         //!   Delete THIS
@@ -97,53 +103,7 @@ namespace SignalRChat.Hubs
         ////}
 
 
-        //? static?
-        private static void AddRoomToHub(Room newRoom)
-        {
-            chatRooms.AddRoom(newRoom);
-        }
-
-        // Adding a new participant to an existing room
-        private void AddParticipantToChatRoom(Participant newParticipant, string roomID)
-        {
-            if (connectionId_Participant_Pairs.ContainsKey(newParticipant.ConnectionId))
-            {
-                //TODO: What if the person tries to join the room again?
-            }
-
-
-            ////Room roomToJoin = chatRooms.GetRoom(roomID);
-            connectionId_Participant_Pairs.Add(newParticipant.ConnectionId, newParticipant);
-
-            // Adding participants to the Group and the equivalent Room
-            Groups.AddToGroupAsync(newParticipant.ConnectionId, roomID);
-            chatRooms.AddParticipantToRoom(newParticipant, roomID);
-
-
-        }
-
-        // Deletes participants from the Group and related room
-        // Handles case of empty room
-        private void RemoveParticipantFromChatRoom(string connectionId)
-        {
-            Participant participant = connectionId_Participant_Pairs[connectionId];
-            string roomId = participant.RoomId;
-            ////Room room = chatRooms.GetRoom(roomId);
-            
-            // Removing participants from all the necessary places
-            connectionId_Participant_Pairs.Remove(connectionId);
-            
-            // Removing for SignalR's Group - if it is the last participant, the Group automatically gets removed
-            Groups.RemoveFromGroupAsync(participant.ConnectionId, roomId);
-            chatRooms.RemoveParticipantFromRoom(participant);
-
-            // Closing the room if the last person left
-            ////if (room.Participants.Count <= 0)
-            ////{
-            ////    RemoveRoom(roomId);
-            ////}
-
-        }
+       
 
         
         ////private void RemoveRoom(string roomId)
@@ -174,7 +134,78 @@ namespace SignalRChat.Hubs
 
 
 
+        /**
+         HELPER METHODS!
+         */
+
+        
+       
+        
+        
+        /// <summary>
+        /// Adds Participant to the chatRoom List and Hub.Group. Includes adding the Participant to the participant Dictionary.
+        /// </summary>
+        /// <param name="newParticipant">The Participant that is joining the chat</param>
+        /// <param name="roomID">The Room to add Participant to</param>
+        ////private static void AddRoomToHub(Room newRoom)
+        ////{
+        ////    chatRooms.AddRoom(newRoom);
+        ////}
+
+        // Adding a new participant to an existing room
+        /// <summary>
+        /// Adds Participant to the chatRoom List and Hub.Group. Includes adding the Participant to the participant Dictionary.
+        /// </summary>
+        /// <param name="newParticipant">The Participant that is joining the chat</param>
+        private void AddParticipantToChatRoom(Participant newParticipant, string roomID)
+        {
+            if (connectionId_Participant_Pairs.ContainsKey(newParticipant.ConnectionId))
+            {
+                //TODO: What if the person tries to join the room again?
+            }
+
+            ////Room roomToJoin = chatRooms.GetRoom(roomID);
+            connectionId_Participant_Pairs.Add(newParticipant.ConnectionId, newParticipant);
+
+            // Adding participants to the Group and the equivalent Room
+            Groups   .AddToGroupAsync(connectionId: newParticipant.ConnectionId, groupName: roomID);
+            chatRooms.AddParticipantToRoom(newParticipant, roomID);
+        }
+
+        // Deletes participants from the Group and related room
+        // Handles case of empty room
+        /// <summary>
+        /// Removes a Participant from the Hub.Group, chatRoom and the Participant Dictionary.
+        /// </summary>
+        /// <param name="connectionId">ConnectionId for the Participant to remove</param>
+        private void RemoveParticipantFromChatRoom(string connectionId)
+        {
+            Participant participant = connectionId_Participant_Pairs[connectionId];
+            string roomId = participant.RoomId;
+            ////Room room = chatRooms.GetRoom(roomId);
+
+            // Removing participants from all the necessary places
+            connectionId_Participant_Pairs.Remove(connectionId);
+
+            // Removing for SignalR's Group - if it is the last participant, the Group automatically gets removed
+            Groups.RemoveFromGroupAsync(participant.ConnectionId, roomId);
+            chatRooms.RemoveParticipantFromRoom(participant);
+
+            // Closing the room if the last person left
+            ////if (room.Participants.Count <= 0)
+            ////{
+            ////    RemoveRoom(roomId);
+            ////}
+
+        }
+
+
         // Generates an *length* digit room ID
+        /// <summary>
+        /// Generates a Room ID with random letters and numbers
+        /// </summary>
+        /// <param name="length">Length of the ID</param>
+        /// <returns>A string of randomly assembled characters</returns>
         private string GenerateRoomID(int length)
         {
             Random random = new Random();
@@ -183,10 +214,12 @@ namespace SignalRChat.Hubs
             // Characters and numbers to choose from
             string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
+            // Assembling the characters randomly to form the ID string
             string id = new string(Enumerable.Repeat(chars, idLength)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
 
-            if (chatRooms.CheckIfRoomIdExists(id))
+            // Recursive in case the ID had already been generated
+            if (chatRooms.ContainsRoom(id))
                 return GenerateRoomID(idLength);
 
             return id;

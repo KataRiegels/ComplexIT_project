@@ -5,7 +5,7 @@ namespace SignalRChat.ChatRoomObjects
 {
     public class Room
     {
-        public string GroupId;
+        public string RoomId;
         public string? RoomName;
         public List<Participant> Participants;
         public Participant KeyResponsible; //TODO: What if key responsible is null?
@@ -14,20 +14,20 @@ namespace SignalRChat.ChatRoomObjects
         //public Room() { }
         ////public Room(string groupId, string roomName)
         ////{
-        ////    GroupId = groupId;
+        ////    RoomId = groupId;
         ////    RoomName = roomName;
         ////    Participants = new List<Participant>();
         ////}
 
         ////public Room(string groupId)
         ////{
-        ////    GroupId = groupId;
+        ////    RoomId = groupId;
         ////    Participants = new List<Participant>();
         ////}
 
         public Room(string groupId, Participant keyResponsible)
         {
-            GroupId = groupId;
+            RoomId = groupId;
             Participants = new List<Participant>();
             KeyResponsible = keyResponsible;
         }
@@ -67,7 +67,7 @@ namespace SignalRChat.ChatRoomObjects
         // ToString() that just lets you identify a room form its name
         public override string ToString()
         {
-            return "Room with room name: " + GroupId;
+            return "Room with room name: " + RoomId;
         }
     }
 }
