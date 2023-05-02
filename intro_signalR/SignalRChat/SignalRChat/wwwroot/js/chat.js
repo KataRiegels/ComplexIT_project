@@ -24,6 +24,36 @@ connection.on("ReceiveGroupName", function (message) {
 });
 
 
+connection.on("GetMessage", async () => {
+    let promise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve("message");
+        }, 100);
+    });
+    return promise;
+});
+
+connection.on("GetMessage", function (message) {
+    var li = document.createElement("li");
+    document.getElementById("messagesList").appendChild(li);
+    // We can assign user-supplied strings to an element's textContent because it
+    // is not interpreted as markup. If you're assigning in any other way, you 
+    // should be aware of possible script injection concerns.
+    li.textContent = `room name:  ${message}`;
+});
+
+
+
+//document.getElementById("tester").addEventListener("click", function (event) {
+//    var name = document.getElementById("messageInput").value;
+//    connection.invoke("WaitForMessage", user, name).catch(function (err) {
+//        return console.error(err.toString());
+//    });
+//    event.preventDefault();
+//});
+
+
+
 connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;
 }).catch(function (err) {
@@ -69,7 +99,7 @@ document.getElementById("createRoom").addEventListener("click", function (event)
 document.getElementById("joinRoom").addEventListener("click", function (event) {
     var user = document.getElementById("userInput").value;
     var name = document.getElementById("messageInput").value;
-    connection.invoke("JoinRoom", user, name).catch(function (err) {
+    connection.invoke("JoinRoom", user, name, "yehaaw").catch(function (err) {
         return console.error(err.toString());
     });
     event.preventDefault();

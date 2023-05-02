@@ -43,12 +43,18 @@ public class Rooms : List<Room>
     public void AddParticipantToRoom(Participant participant, string groupId)
     {
         GetRoom(groupId).AddParticipant(participant);
-        participant.roomId = groupId;
+        participant.RoomId = groupId;
     }
 
     public void RemoveParticipantFromRoom(Participant participant)
     {
-        GetRoom(participant.roomId).RemoveParticipant(participant);
+        var room = GetRoom(participant.RoomId);
+            room.RemoveParticipant(participant);
+        if (room.Participants.Count() <= 0)
+        {
+            RemoveRoom(room.GroupId);
+        }
+        Console.WriteLine("room (ROOMS): " + room);
     }
 
 
