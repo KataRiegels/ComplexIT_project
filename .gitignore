@@ -6,3 +6,6 @@
 *.vsidx
 /intro_signalR/.vs/SignalRChat/DesignTimeBuild
 *.dll
+/bin/Debug
+/obj/Debug
+*suo
