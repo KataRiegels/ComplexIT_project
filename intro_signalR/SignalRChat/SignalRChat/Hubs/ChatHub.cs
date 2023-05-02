@@ -10,18 +10,17 @@ namespace SignalRChat.Hubs
     public class ChatHub : Hub
     {
 
-        static Dictionary<string, Participant> connectionIdParticipantPairs = new Dictionary<string, Participant>();
-        
-        static Rooms ChatRooms = new Rooms();
+        static Dictionary<string, Participant> connectionId_Participant_Pairs = new Dictionary<string, Participant>();
+        static readonly Rooms chatRooms = new Rooms();
 
 
         public async Task SendMessage(string message)
         {
-            Participant callerParticipant = connectionIdParticipantPairs[Context.ConnectionId];
+            Participant callerParticipant = connectionId_Participant_Pairs[Context.ConnectionId];
             string groupId = callerParticipant.RoomId;
 
             // Sends message to everyone in the room (Group) besides the Caller
-            await Clients.OthersInGroup(groupId).SendAsync("ReceiveMessage", callerParticipant.Nickname, message);
+            await Clients.OthersInGroup(groupId).SendAsync(method: "ReceiveMessage", arg1: callerParticipant.Nickname, message);
             
             //TODO: maybe send tick that everyone received it
         
@@ -32,17 +31,17 @@ namespace SignalRChat.Hubs
         {
 
             Participant creatorParticipant = new Participant(Context.ConnectionId, userName);
-            await Console.Out.WriteLineAsync("created room");
 
             // Adding the room to the Hub's chat rooms
-            string groupId = GenerateRoomID(8);
-            Room   newRoom = new Room(groupId, creatorParticipant);
+            string roomID = GenerateRoomID(8);
+            Room   newRoom = new Room(roomID, creatorParticipant);
             AddRoomToHub(newRoom);
+            await Console.Out.WriteLineAsync("created room with room ID: " + newRoom.GroupId);
             
             // Adding the connected user to the new chat room
-            AddParticipantToChatRoom(creatorParticipant, groupId);
+            AddParticipantToChatRoom(newParticipant: creatorParticipant, roomID);
 
-            await Clients.Caller.SendAsync("ReceiveGroupName", groupId);
+            await Clients.Caller.SendAsync("ReceiveGroupName", roomID);
         }
 
 
@@ -59,15 +58,15 @@ namespace SignalRChat.Hubs
         public async Task JoinRoom(string userName, string roomName, string encryptedPublicKey = "")
         {
 
-            if (!ChatRooms.ContainsRoom(roomName))
+            if (!chatRooms.ContainsRoom(roomName))
             {
                 //TODO: Room does not exist. Inform client!
             }
 
 
             //? Client should call invoke("JoinRoom").then().invoke("ReceiveKey")
-            Room currentRoom = ChatRooms.GetRoom(roomName);
-            ISingleClientProxy keyResp = Clients.Client(currentRoom.KeyResponsible.ConnectionId);
+            Room currentRoom = chatRooms.GetRoom(roomName);
+            ISingleClientProxy keyResp = Clients.Client(connectionId: currentRoom.KeyResponsible.ConnectionId);
 
             // Sending request to key responsible - Client will invoke ReceiveKey() method
             await keyResp.SendAsync("RequestKey", encryptedPublicKey);
@@ -89,64 +88,69 @@ namespace SignalRChat.Hubs
 
 
         //!   Delete THIS
-        private void PrintPartPairs()
-        {
-            foreach (var item in connectionIdParticipantPairs)
-            {
-                Console.WriteLine("connected: " + item.Key);
-            }
-        }
+        ////private void PrintPartPairs()
+        ////{
+        ////    foreach (var item in connectionId_Participant_Pairs)
+        ////    {
+        ////        Console.WriteLine("connected: " + item.Key);
+        ////    }
+        ////}
+
 
         //? static?
-        private void AddRoomToHub(Room newRoom)
+        private static void AddRoomToHub(Room newRoom)
         {
-            ChatRooms.AddRoom(newRoom);
+            chatRooms.AddRoom(newRoom);
         }
 
         // Adding a new participant to an existing room
         private void AddParticipantToChatRoom(Participant newParticipant, string roomID)
         {
-            if (connectionIdParticipantPairs.ContainsKey(newParticipant.ConnectionId))
+            if (connectionId_Participant_Pairs.ContainsKey(newParticipant.ConnectionId))
             {
                 //TODO: What if the person tries to join the room again?
             }
 
-            Room roomToJoin = ChatRooms.GetRoom(roomID);
-            connectionIdParticipantPairs.Add(newParticipant.ConnectionId, newParticipant);
+
+
+            ////Room roomToJoin = chatRooms.GetRoom(roomID);
+            connectionId_Participant_Pairs.Add(newParticipant.ConnectionId, newParticipant);
 
             // Adding participants to the Group and the equivalent Room
             Groups.AddToGroupAsync(newParticipant.ConnectionId, roomID);
-            ChatRooms.AddParticipantToRoom(newParticipant, roomID);
+            chatRooms.AddParticipantToRoom(newParticipant, roomID);
 
 
         }
 
+        // Deletes participants from the Group and related room
+        // Handles case of empty room
         private void RemoveParticipantFromChatRoom(string connectionId)
         {
-            Participant participantToRemove = connectionIdParticipantPairs[connectionId];
-            string roomId = participantToRemove.RoomId;
-            Room room = ChatRooms.GetRoom(roomId);
+            Participant participant = connectionId_Participant_Pairs[connectionId];
+            string roomId = participant.RoomId;
+            ////Room room = chatRooms.GetRoom(roomId);
             
             // Removing participants from all the necessary places
-            connectionIdParticipantPairs.Remove(connectionId);
+            connectionId_Participant_Pairs.Remove(connectionId);
             
             // Removing for SignalR's Group - if it is the last participant, the Group automatically gets removed
-            Groups.RemoveFromGroupAsync(participantToRemove.ConnectionId, roomId);
-            ChatRooms.RemoveParticipantFromRoom(participantToRemove);
+            Groups.RemoveFromGroupAsync(participant.ConnectionId, roomId);
+            chatRooms.RemoveParticipantFromRoom(participant);
 
             // Closing the room if the last person left
-            if (room.Participants.Count <= 0)
-            {
-                RemoveRoom(roomId);
-            }
+            ////if (room.Participants.Count <= 0)
+            ////{
+            ////    RemoveRoom(roomId);
+            ////}
 
         }
 
         
-        private void RemoveRoom(string roomId)
-        {
-            ChatRooms.RemoveRoom(roomId);
-        }
+        ////private void RemoveRoom(string roomId)
+        ////{
+        ////    chatRooms.RemoveRoom(roomId);
+        ////}
 
 
 
@@ -163,6 +167,8 @@ namespace SignalRChat.Hubs
         {
             // Removes participant when closing the browser tab
             RemoveParticipantFromChatRoom(Context.ConnectionId);
+            Console.Out.WriteLineAsync("Disconnected ID " + Context.ConnectionId);
+            
             return base.OnDisconnectedAsync(exception);
         }
 
@@ -180,7 +186,7 @@ namespace SignalRChat.Hubs
             string id = new string(Enumerable.Repeat(chars, idLength)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
 
-            if (ChatRooms.CheckIfRoomIdExists(id))
+            if (chatRooms.CheckIfRoomIdExists(id))
                 return GenerateRoomID(idLength);
 
             return id;

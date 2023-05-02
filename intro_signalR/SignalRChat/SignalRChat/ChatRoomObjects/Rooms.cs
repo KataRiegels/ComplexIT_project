@@ -16,27 +16,31 @@ public class Rooms : List<Room>
 
     public Room GetRoom(string id)
     {
-        //TODO: NULL?
-        Room room = Find(x => x.GroupId.Equals(id));
-        return room;
+        Room? room = Find(x => x.GroupId.Equals(id));
+        
+        if (room != null)
+            return room;
+        
+        // No room with that ID in List
+        throw new NullReferenceException();
     }
 
-    public Room GetRoomById(string roomName)
-    {
-        //TODO: NULL?
-        Room room = Find(x => x.RoomName.Equals(roomName));
-        return room;
-    }
+    ////public Room GetRoomById(string roomName)
+    ////{
+    ////    //TODO: NULL?
+    ////    Room? room = Find(x => x.RoomName.Equals(roomName));
+    ////    return room;
+    ////}
 
 
     // No need to use this specifically - personal preference. Simply just Rooms.Add(Room) otherwise. 
     public void AddRoom(Room room)
     {
-        this.Add(room);
+        Add(room);
     }
         
-    public void RemoveRoom(string roomId) {
-
+    public void RemoveRoom(string roomId) 
+    {
         Remove(GetRoom(roomId));
     }
 
@@ -54,7 +58,9 @@ public class Rooms : List<Room>
         {
             RemoveRoom(room.GroupId);
         }
-        Console.WriteLine("room (ROOMS): " + room);
+        Console.WriteLine("room exists? " + GetRoom(participant.RoomId));
+        
+
     }
 
 

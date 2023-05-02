@@ -3,27 +3,27 @@ using System.Collections;
 
 namespace SignalRChat.ChatRoomObjects
 {
-    public class Room : IDisposable
+    public class Room
     {
         public string GroupId;
         public string? RoomName;
         public List<Participant> Participants;
-        public Participant? KeyResponsible; //TODO: What if key responsible is null?
-        private bool disposedValue;
+        public Participant KeyResponsible; //TODO: What if key responsible is null?
+        ////private bool disposedValue;
 
         //public Room() { }
-        public Room(string groupId, string roomName)
-        {
-            GroupId = groupId;
-            RoomName = roomName;
-            Participants = new List<Participant>();
-        }
+        ////public Room(string groupId, string roomName)
+        ////{
+        ////    GroupId = groupId;
+        ////    RoomName = roomName;
+        ////    Participants = new List<Participant>();
+        ////}
 
-        public Room(string groupId)
-        {
-            GroupId = groupId;
-            Participants = new List<Participant>();
-        }
+        ////public Room(string groupId)
+        ////{
+        ////    GroupId = groupId;
+        ////    Participants = new List<Participant>();
+        ////}
 
         public Room(string groupId, Participant keyResponsible)
         {
@@ -46,17 +46,12 @@ namespace SignalRChat.ChatRoomObjects
             if (participant.Equals(KeyResponsible))
             {
                 Console.WriteLine("Host left! :" + KeyResponsible.ConnectionId);
-                KeyResponsible = Participants.FirstOrDefault();
-                if (KeyResponsible != null)
+                Participant? newKeyResponsible = Participants.FirstOrDefault();
+                if (newKeyResponsible != null)
+                    KeyResponsible = newKeyResponsible;
                     Console.WriteLine("New host is: " + KeyResponsible.ConnectionId);
             }
 
-            if (Participants.Count() <= 0)
-            {
-                Console.WriteLine("Should close room?");
-                Dispose(true);
-
-            }
 
 
         }
@@ -73,43 +68,6 @@ namespace SignalRChat.ChatRoomObjects
         public override string ToString()
         {
             return "Room with room name: " + GroupId;
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    // TODO: dispose managed state (managed objects)
-                }
-
-                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
-                // TODO: set large fields to null
-                disposedValue = true;
-            }
-        }
-
-        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
-        // ~Room()
-        // {
-        //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-        //     Dispose(disposing: false);
-        // }
-
-        public void Dispose()
-        {
-            if (disposedValue)
-            {
-                return;
-            }
-
-            Dispose(true);
-
-            disposedValue = true;
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
         }
     }
 }
