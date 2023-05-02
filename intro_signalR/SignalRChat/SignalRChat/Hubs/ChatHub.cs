@@ -112,7 +112,6 @@ namespace SignalRChat.Hubs
             }
 
 
-
             ////Room roomToJoin = chatRooms.GetRoom(roomID);
             connectionId_Participant_Pairs.Add(newParticipant.ConnectionId, newParticipant);
 
@@ -165,6 +164,7 @@ namespace SignalRChat.Hubs
 
         public override Task OnDisconnectedAsync(Exception? exception)
         {
+            //todo: Let frontend know about leaving?
             // Removes participant when closing the browser tab
             RemoveParticipantFromChatRoom(Context.ConnectionId);
             Console.Out.WriteLineAsync("Disconnected ID " + Context.ConnectionId);
