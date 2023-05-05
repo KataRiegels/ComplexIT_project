@@ -26,7 +26,6 @@ namespace SignalRChat.Hubs
         
         }
 
-        ////TODO: make sure generated ID doesn't already exist
         public async Task CreateRoom(string userName)
         {
 
@@ -42,6 +41,7 @@ namespace SignalRChat.Hubs
             // Adding the connected user to the new chat room
             AddParticipantToChatRoom(newParticipant: creatorParticipant, roomID);
 
+
             await Clients.Caller.SendAsync("ReceiveGroupName", roomID);
         }
 
@@ -50,7 +50,7 @@ namespace SignalRChat.Hubs
         
 
         // Callback to join room button on client
-        public async Task JoinRoom(string userName, string roomID, string encryptedPublicKey = "")
+        public async Task JoinRoom(string userName, string roomID, string publicKey2 = "")
         {
 
             if (!chatRooms.ContainsRoom(roomID))
@@ -61,22 +61,18 @@ namespace SignalRChat.Hubs
 
             //? Client should call invoke("JoinRoom").then().invoke("ReceiveKey")
             Room currentRoom = chatRooms.GetRoom(roomID);
-            ISingleClientProxy keyResp = Clients.Client(connectionId: currentRoom.KeyResponsible.ConnectionId);
-
-            // Sending request to key responsible - Client will invoke ReceiveKey() method
-            await keyResp.SendAsync("RequestKey", encryptedPublicKey);
-            //// string message = await WaitForMessage(currentRoom.KeyResponsible.ConnectionId);
-            //// await Console.Out.WriteLineAsync("Returned message " + message);
+            foreach (var room in chatRooms)
+            {
+                await Console.Out.WriteLineAsync(room.RoomId);
+            }
 
             // Sends and waits for client (host) result to get the symmetric key
-            //!? uncomment !
-            // string encryptedSymmetricKey = await AskForSymmetricKey(currentRoom.KeyResponsible.ConnectionId);
+            string encryptedSymmetricKey = await AskForSymmetricKey(connectionId: currentRoom.KeyResponsible.ConnectionId,
+                                                                      publicKey2);
 
             // Sends out the encrypted key parameter to ReceieveKey callback(?)
-            //!? uncomment !
-            // await Clients.Caller.SendAsync("ReceiveKey", encryptedSymmetricKey);
-
-            AddParticipantToChatRoom( new Participant(Context.ConnectionId, userName), roomID);
+            await Clients.Caller.SendAsync("ReceiveKey", encryptedSymmetricKey);
+            AddParticipantToChatRoom(new Participant(Context.ConnectionId, userName), roomID);
         }
 
         /// <summary>
@@ -84,34 +80,16 @@ namespace SignalRChat.Hubs
         /// </summary>
         /// <param name="connectionId">Connection ID for the Participant meant to generate the key</param>
         /// <returns>A string with the encrypted symmetric key</returns>
-        private async Task<string> AskForSymmetricKey(string connectionId)
+        public async Task<string> AskForSymmetricKey(string connectionId, string publicKey3)
         {
             //todo: cancellation token!
+            await Console.Out.WriteLineAsync("symmetric key: " + publicKey3);
+            ////var key2 = await Clients.Client(connectionId).InvokeAsync<string>("SendKey", cancellationToken: new CancellationToken());
+                ////.InvokeAsync<string>(method: "SendKey", arg1: publicKey2, new CancellationToken());
             var key = await Clients.Client(connectionId)
-                .InvokeAsync<string>(method: "SendKey", new CancellationToken());
-            return key;
+                .InvokeAsync<string>(method: "SendKey", publicKey3,  new CancellationToken());
+            return "";
         }
-
-
-        //!   Delete THIS
-        ////private void PrintPartPairs()
-        ////{
-        ////    foreach (var item in connectionId_Participant_Pairs)
-        ////    {
-        ////        Console.WriteLine("connected: " + item.Key);
-        ////    }
-        ////}
-
-
-       
-
-        
-        ////private void RemoveRoom(string roomId)
-        ////{
-        ////    chatRooms.RemoveRoom(roomId);
-        ////}
-
-
 
 
         
@@ -166,6 +144,8 @@ namespace SignalRChat.Hubs
 
             ////Room roomToJoin = chatRooms.GetRoom(roomID);
             connectionId_Participant_Pairs.Add(newParticipant.ConnectionId, newParticipant);
+            Console.WriteLine("participant: " + connectionId_Participant_Pairs[newParticipant.ConnectionId]);
+
 
             // Adding participants to the Group and the equivalent Room
             Groups   .AddToGroupAsync(connectionId: newParticipant.ConnectionId, groupName: roomID);

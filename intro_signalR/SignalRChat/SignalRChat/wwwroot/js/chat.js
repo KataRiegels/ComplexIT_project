@@ -24,12 +24,14 @@ connection.on("ReceiveGroupName", function (message) {
 });
 
 
-connection.on("GetMessage", async () => {
+//connection.on("SendKey", async (key) => {
+connection.on("SendKey", async () => {
     let promise = new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve("message");
-        }, 100);
-    });
+        //setTimeout(() => {
+            resolve( "message") ;
+        //}, 100);
+}
+);
     return promise;
 });
 
