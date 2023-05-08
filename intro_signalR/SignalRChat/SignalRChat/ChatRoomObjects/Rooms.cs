@@ -17,7 +17,6 @@ public class Rooms : List<Room>, IRooms
     public Room GetRoom(string id)
     {
         Room? room = Find(x => x.RoomId.Equals(id));
-
         if (room != null)
             return room;
 
@@ -58,7 +57,6 @@ public class Rooms : List<Room>, IRooms
         {
             RemoveRoom(room.RoomId);
         }
-        Console.WriteLine("room exists? " + GetRoom(participant.RoomId));
 
 
     }
