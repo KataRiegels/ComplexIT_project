@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\katar\\Documents\\RUC_masters\\Complex_project\\serverCode\\ComplexIT_project\\intro_signalR\\SignalRChat\\SignalRChat\\SignalRChat.csproj": {}
+    "C:\\Users\\Mitzie\\Documents\\_RUC\\2nd_semester\\signalR\\ComplexIT_project\\intro_signalR\\SignalRChat\\SignalRChat\\SignalRChat.csproj": {}
   },
   "projects": {
-    "C:\\Users\\katar\\Documents\\RUC_masters\\Complex_project\\serverCode\\ComplexIT_project\\intro_signalR\\SignalRChat\\SignalRChat\\SignalRChat.csproj": {
+    "C:\\Users\\Mitzie\\Documents\\_RUC\\2nd_semester\\signalR\\ComplexIT_project\\intro_signalR\\SignalRChat\\SignalRChat\\SignalRChat.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\katar\\Documents\\RUC_masters\\Complex_project\\serverCode\\ComplexIT_project\\intro_signalR\\SignalRChat\\SignalRChat\\SignalRChat.csproj",
+        "projectUniqueName": "C:\\Users\\Mitzie\\Documents\\_RUC\\2nd_semester\\signalR\\ComplexIT_project\\intro_signalR\\SignalRChat\\SignalRChat\\SignalRChat.csproj",
         "projectName": "SignalRChat",
-        "projectPath": "C:\\Users\\katar\\Documents\\RUC_masters\\Complex_project\\serverCode\\ComplexIT_project\\intro_signalR\\SignalRChat\\SignalRChat\\SignalRChat.csproj",
-        "packagesPath": "C:\\Users\\katar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\katar\\Documents\\RUC_masters\\Complex_project\\serverCode\\ComplexIT_project\\intro_signalR\\SignalRChat\\SignalRChat\\obj\\",
+        "projectPath": "C:\\Users\\Mitzie\\Documents\\_RUC\\2nd_semester\\signalR\\ComplexIT_project\\intro_signalR\\SignalRChat\\SignalRChat\\SignalRChat.csproj",
+        "packagesPath": "C:\\Users\\Mitzie\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Mitzie\\Documents\\_RUC\\2nd_semester\\signalR\\ComplexIT_project\\intro_signalR\\SignalRChat\\SignalRChat\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\katar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Mitzie\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
