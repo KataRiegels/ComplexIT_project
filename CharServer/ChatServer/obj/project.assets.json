@@ -224,19 +224,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\madsj\\.nuget\\packages\\": {}
+    "C:\\Users\\Mitzie\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\madsj\\Source\\Repos\\ComplexIT_project\\CharServer\\ChatServer\\ChatServer.csproj",
+      "projectUniqueName": "C:\\Users\\Mitzie\\Documents\\_RUC\\2nd_semester\\signalR\\ComplexIT_project\\CharServer\\ChatServer\\ChatServer.csproj",
       "projectName": "ChatServer",
-      "projectPath": "C:\\Users\\madsj\\Source\\Repos\\ComplexIT_project\\CharServer\\ChatServer\\ChatServer.csproj",
-      "packagesPath": "C:\\Users\\madsj\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\madsj\\Source\\Repos\\ComplexIT_project\\CharServer\\ChatServer\\obj\\",
+      "projectPath": "C:\\Users\\Mitzie\\Documents\\_RUC\\2nd_semester\\signalR\\ComplexIT_project\\CharServer\\ChatServer\\ChatServer.csproj",
+      "packagesPath": "C:\\Users\\Mitzie\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Mitzie\\Documents\\_RUC\\2nd_semester\\signalR\\ComplexIT_project\\CharServer\\ChatServer\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\madsj\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Mitzie\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -286,7 +286,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
       }
     }
   }
