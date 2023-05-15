@@ -16,7 +16,7 @@ namespace SignalRChat.Hubs
 
         public async Task SendMessage(object message)
         {
-            await Console.Out.WriteLineAsync("send message!");
+            await Console.Out.WriteLineAsync("send message! " + message);
             Participant callerParticipant = connectionId_Participant_Pairs[Context.ConnectionId];
             string groupId = callerParticipant.RoomId;
             Room room = chatRooms.GetRoom(groupId);
