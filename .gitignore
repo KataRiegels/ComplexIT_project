@@ -1,0 +1,17 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/CharServer/.vs/CharServer/FileContentIndex/154eeb51-26ff-4933-ba63-651828c2d9c9.vsidx
+*.vsidx
+/intro_signalR/.vs/SignalRChat/DesignTimeBuild
+*.dll
+/bin/Debug
+/obj/Debug
+v17
+*.suo
+.suo
+intro_signalR/SignalRChat/.vs/SignalRChat/v17/.suo
+intro_signalR/SignalRChat/.vs/SignalRChat/v17/.suo
+intro_signalR/SignalRChat/.vs/SignalRChat/v17
+intro_signalR/SignalRChat/.vs/ProjectEvaluation
