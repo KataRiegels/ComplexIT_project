@@ -14,17 +14,34 @@ namespace SignalRChat.Hubs
         static readonly Rooms chatRooms = new Rooms();
 
 
-        public async Task SendMessage(string message)
+        public async Task SendMessage(object message)
         {
+            await Console.Out.WriteLineAsync("send message!");
             Participant callerParticipant = connectionId_Participant_Pairs[Context.ConnectionId];
             string groupId = callerParticipant.RoomId;
-
+            Room room = chatRooms.GetRoom(groupId);
             // Sends message to everyone in the room (Group) besides the Caller
-            await Clients.OthersInGroup(groupId).SendAsync(method: "ReceiveMessage", arg1: callerParticipant.Nickname, message);
-            
+            room.messageID++;
+            await Clients.OthersInGroup(groupId).SendAsync(method: "ReceiveMessage", arg1: callerParticipant.Nickname, message, room.messageID);
+            await Clients.Caller.SendAsync("GetRoomId", room.messageID);
             //TODO: maybe send tick that everyone received it
         
         }
+
+        public async Task SendFile(object message)
+        {
+            Participant callerParticipant = connectionId_Participant_Pairs[Context.ConnectionId];
+            string groupId = callerParticipant.RoomId;
+            Room room = chatRooms.GetRoom(groupId);
+            // Sends message to everyone in the room (Group) besides the Caller
+            room.messageID++;
+            await Clients.OthersInGroup(groupId).SendAsync(method: "ReceiveFile", arg1: callerParticipant.Nickname, message, room.messageID);
+            await Clients.Caller.SendAsync("GetRoomId", room.messageID);
+            //TODO: maybe send tick that everyone received it
+
+        }
+
+
 
         public async Task CreateRoom(string userName)
         {

@@ -9,6 +9,7 @@ namespace SignalRChat.ChatRoomObjects
         public string? RoomName;
         public List<Participant> Participants;
         public Participant KeyResponsible; //TODO: What if key responsible is null?
+        public int messageID = 0;
         ////private bool disposedValue;
 
         //public Room() { }
