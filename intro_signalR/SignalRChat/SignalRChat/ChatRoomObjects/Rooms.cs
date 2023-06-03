@@ -24,12 +24,6 @@ public class Rooms : List<Room>, IRooms
         throw new NullReferenceException();
     }
 
-    ////public Room GetRoomById(string roomName)
-    ////{
-    ////    //TODO: NULL?
-    ////    Room? room = Find(x => x.RoomName.Equals(roomName));
-    ////    return room;
-    ////}
 
 
     // No need to use this specifically - personal preference. Simply just Rooms.Add(Room) otherwise. 
@@ -62,10 +56,11 @@ public class Rooms : List<Room>, IRooms
     }
 
 
-    public void AddParticipantToRoom(string connectionId, string groupId)
-    {
-        //GetRoom(groupId).AddParticipant(participant);
-    }
+    //public void AddParticipantToRoom(string connectionId, string groupId)
+    //{
+    //    //GetRoom(groupId).AddParticipant(participant);
+    //}
+
     public bool ContainsRoom(string roomId)
     {
         foreach (Room room in this)

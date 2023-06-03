@@ -8,7 +8,7 @@
         /// <param name="participant">The Participant to add</param>
         /// <param name="roomID">The ID for the Room Participant is being added to</param>
         void AddParticipantToRoom(Participant participant, string roomID);
-        void AddParticipantToRoom(string connectionId, string groupId);
+
         /// <summary>
         /// Add a Room to the List
         /// </summary>
