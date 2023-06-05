@@ -9,17 +9,13 @@ namespace Chat
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        // This method gets called by the runtime.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddSignalR();
             services.AddSignalR(hubOptions =>
             {
                 hubOptions.EnableDetailedErrors = true;
-                //hubOptions.KeepAliveInterval = TimeSpan.FromMinutes(1);
             });
-            //services.AddRazorPages();
             services.AddControllers();
         }
 
@@ -30,6 +26,8 @@ namespace Chat
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            // Hardcoding what ports a client can connect to. Only works with localhost. 
             app.UseCors(
                 options => options.WithOrigins("http://localhost:100", "http://localhost:5173", "http://localhost:5172").AllowAnyMethod().AllowAnyHeader().AllowCredentials()
             );

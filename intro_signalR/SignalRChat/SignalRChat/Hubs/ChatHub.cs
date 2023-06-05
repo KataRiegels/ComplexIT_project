@@ -177,7 +177,7 @@ namespace SignalRChat.Hubs
             if (!chatRooms.Contains(room))
             {
                 HttpClient httpClient = new HttpClient();
-                httpClient.DeleteAsync("http://77.33.131.226:3000/api/databaseapi/delete/room/" + roomId);
+                httpClient.DeleteAsync("http://77.33.131.226:3000/api/databaseapi/files/room/" + roomId);
             }
 
 

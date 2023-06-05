@@ -10,6 +10,7 @@ public class Participant
     {
         ConnectionId = connectionId;
         Nickname     = nickname;
+        Console.WriteLine("Nickname: " + nickname);
         RoomId       = "Undefined room";
     }
 
